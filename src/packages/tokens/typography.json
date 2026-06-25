@@ -1,0 +1,19 @@
+{
+  "typography": {
+    "display": {
+      "family": "Playfair Display",
+      "weights": [400, 600, 700],
+      "usage": "editorial titles, hero copy, typography specimen"
+    },
+    "body": {
+      "family": "Inter",
+      "weights": [400, 500, 600, 700],
+      "usage": "interface copy, forms, navigation, product metadata"
+    },
+    "mono": {
+      "family": "IBM Plex Mono",
+      "weights": [400, 500],
+      "usage": "captions, labels, system notes"
+    }
+  }
+}
