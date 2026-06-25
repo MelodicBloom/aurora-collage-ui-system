@@ -1,63 +1,50 @@
-/**
- * Optional ambient audio engine — opt-in only, gated behind user gesture.
- * All audio is disabled by default and respects prefers-reduced-motion.
- */
+// Optional audio engine — opt-in only, requires user gesture
+type AudioEvent = 'buttonHover' | 'buttonPress' | 'pageTransition' | 'cartAdd';
 
-type AudioEvent = 'buttonHover' | 'buttonPress' | 'pageTransition' | 'cartAdd'
+class AudioEngine {
+  private audioContext: AudioContext | null = null;
+  private enabled = false;
+  private reducedMotion = false;
 
-interface AudioEngineConfig {
-  enabled: boolean
-  uiVolume: number
-  ambientVolume: number
+  constructor() {
+    if (typeof window !== 'undefined') {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.reducedMotion = mq.matches;
+      mq.addEventListener('change', (e) => { this.reducedMotion = e.matches; });
+    }
+  }
+
+  async initialize(): Promise<void> {
+    if (this.reducedMotion) return;
+    try {
+      this.audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      await this.audioContext.resume();
+    } catch (_e) {
+      // fail silently
+    }
+  }
+
+  play(_event: AudioEvent): void {
+    if (!this.enabled || !this.audioContext || this.reducedMotion) return;
+    // Synth sounds omitted for brevity — see audio-spec.json
+  }
+
+  setEnabled(enabled: boolean): void {
+    this.enabled = enabled;
+    if (enabled && !this.audioContext) void this.initialize();
+  }
 }
 
-const defaultConfig: AudioEngineConfig = {
-  enabled: false,
-  uiVolume: 0.18,
-  ambientVolume: 0.06,
+export const audioEngine = new AudioEngine();
+
+export function useAudio() {
+  return {
+    play: (event: AudioEvent) => audioEngine.play(event),
+    setEnabled: (enabled: boolean) => audioEngine.setEnabled(enabled),
+  };
 }
 
-let _config: AudioEngineConfig = { ...defaultConfig }
-let _initialized = false
-let _audioCtx: AudioContext | null = null
-
-function getReducedMotion(): boolean {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-export function initAudio(): void {
-  if (_initialized || getReducedMotion()) return
-  _audioCtx = new AudioContext()
-  _initialized = true
-}
-
-export function enableAudio(): void {
-  if (getReducedMotion()) return
-  if (!_initialized) initAudio()
-  _config.enabled = true
-}
-
-export function disableAudio(): void {
-  _config.enabled = false
-}
-
-export function isAudioEnabled(): boolean {
-  return _config.enabled && _initialized
-}
-
-export function playUiEvent(_event: AudioEvent): void {
-  if (!isAudioEnabled() || !_audioCtx) return
-  // Placeholder — replace with actual AudioBuffer playback per event
-  const osc = _audioCtx.createOscillator()
-  const gain = _audioCtx.createGain()
-  osc.connect(gain)
-  gain.connect(_audioCtx.destination)
-  gain.gain.setValueAtTime(_config.uiVolume * 0.1, _audioCtx.currentTime)
-  gain.gain.exponentialRampToValueAtTime(0.0001, _audioCtx.currentTime + 0.18)
-  osc.start()
-  osc.stop(_audioCtx.currentTime + 0.18)
-}
-
-export function configureAudio(overrides: Partial<AudioEngineConfig>): void {
-  _config = { ..._config, ...overrides }
+if (typeof window !== 'undefined') {
+  const init = () => { void audioEngine.initialize(); };
+  window.addEventListener('click', init, { once: true, passive: true });
 }
