@@ -16,13 +16,14 @@ const nav = [
 
 export default function AuroraFrame({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+
   return (
-    <div className="min-h-screen bg-[var(--color-paper)] text-[var(--color-ink)]">
-      <div className="pointer-events-none fixed inset-0 opacity-70" />
-      <header className="sticky top-0 z-40 border-b border-black/10 bg-[rgba(246,237,227,0.88)] backdrop-blur-md">
+    <div className="min-h-screen bg-[var(--color-paper)] texture-cardstock text-[var(--color-ink)]">
+      <div className="pointer-events-none fixed inset-0 texture-litho opacity-70" />
+      <header className="sticky top-0 z-40 border-b border-black/10 bg-[rgba(246,237,227,0.8)] backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-          <Link to="/" className="font-mono text-xs uppercase tracking-[0.3em] text-black/60 hover:text-[var(--color-riso-red)] transition-colors">
-            {screenCopy.brand.name}
+          <Link to="/" className="flex items-center gap-3">
+            <span className="font-mono text-xs uppercase tracking-[0.3em] text-black/60">{screenCopy.brand.name}</span>
           </Link>
           <nav className="hidden items-center gap-5 md:flex">
             {nav.map((item) => (
@@ -31,7 +32,7 @@ export default function AuroraFrame({ children }: { children: React.ReactNode })
                 to={item.href}
                 className={cn(
                   'text-sm transition-colors hover:text-[var(--color-riso-red)]',
-                  location.pathname === item.href ? 'text-[var(--color-riso-red)]' : 'text-black/65'
+                  location.pathname === item.href ? 'text-[var(--color-riso-red)]' : 'text-black/70'
                 )}
               >
                 {item.label}
@@ -39,10 +40,10 @@ export default function AuroraFrame({ children }: { children: React.ReactNode })
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <Link to="/cart" className="rounded-full border border-black/10 p-2 transition-shadow hover:shadow-[var(--shadow-md)]" aria-label="Cart">
+            <Link to="/cart" className="rounded-full border border-black/10 p-2 hover-paper-lift">
               <ShoppingBag className="h-4 w-4" />
             </Link>
-            <button className="rounded-full border border-black/10 p-2 md:hidden" aria-label="Open menu">
+            <button className="rounded-full border border-black/10 p-2 md:hidden" aria-label="Menu">
               <Menu className="h-4 w-4" />
             </button>
           </div>

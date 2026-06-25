@@ -1,28 +1,43 @@
 import { cn } from '../../lib/utils';
 
-interface PaperLayerProps {
-  variant?: 'newsprint' | 'cardstock' | 'vellum' | 'kraft';
+export type PaperLayerProps = {
+  variant: 'newspaper' | 'watercolor' | 'riso' | 'cardstock' | 'litho';
   rotation?: number;
   opacity?: number;
+  depth?: 1 | 2 | 3 | 4;
+  blend?: 'multiply' | 'normal' | 'screen';
   className?: string;
-  children?: React.ReactNode;
   style?: React.CSSProperties;
-}
-
-const variantClasses: Record<string, string> = {
-  newsprint: 'bg-[#D6C9B2]',
-  cardstock: 'bg-[var(--color-warm-paper)]',
-  vellum: 'bg-white/60',
-  kraft: 'bg-[#C4A97A]',
 };
 
-export default function PaperLayer({ variant = 'cardstock', rotation = 0, opacity = 1, className, children, style }: PaperLayerProps) {
+export default function PaperLayer({
+  variant,
+  rotation = 0,
+  opacity = 1,
+  depth = 1,
+  blend = 'normal',
+  className,
+  style,
+}: PaperLayerProps) {
+  const backgrounds: Record<string, string> = {
+    newspaper: 'bg-[var(--color-newsprint)] texture-newspaper torn-top torn-bottom',
+    watercolor: 'bg-[var(--color-water-teal)] rounded-full',
+    riso: 'bg-[var(--color-riso-red)] rounded-full',
+    cardstock: 'bg-[var(--color-warm-paper)] rounded-2xl',
+    litho: 'bg-[var(--color-soft-black)] rounded-2xl',
+  };
+
+  const shadows: Record<number, string> = {
+    1: 'shadow-[var(--shadow-cardstock1)]',
+    2: 'shadow-[var(--shadow-cardstock2)]',
+    3: 'shadow-[var(--shadow-cardstock3)]',
+    4: 'shadow-[var(--shadow-cardstock4)]',
+  };
+
   return (
     <div
-      className={cn('absolute', variantClasses[variant], className)}
-      style={{ rotate: `${rotation}deg`, opacity, ...style }}
-    >
-      {children}
-    </div>
+      className={cn('absolute', backgrounds[variant], variant === 'cardstock' && shadows[depth], className)}
+      style={{ transform: `rotate(${rotation}deg)`, opacity, mixBlendMode: blend, ...style }}
+    />
   );
 }
