@@ -1,0 +1,49 @@
+/* ── Texture Utility Classes ──────────────────────────── */
+
+.texture-grain {
+  position: relative;
+}
+.texture-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  opacity: 0.18;
+  border-radius: inherit;
+}
+
+.texture-litho {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(19,19,19,.03) 2px,
+    rgba(19,19,19,.03) 4px
+  );
+}
+
+.texture-halftone {
+  background-image: radial-gradient(
+    circle,
+    rgba(19,19,19,.12) 1px,
+    transparent 1px
+  );
+  background-size: 8px 8px;
+}
+
+.texture-newspaper {
+  background-image: repeating-linear-gradient(
+    -8deg,
+    transparent,
+    transparent 18px,
+    rgba(56,57,56,.04) 18px,
+    rgba(56,57,56,.04) 19px
+  );
+}
+
+.blend-multiply  { mix-blend-mode: multiply; }
+.blend-screen    { mix-blend-mode: screen; }
+.blend-overlay   { mix-blend-mode: overlay; }
+.blend-soft-light { mix-blend-mode: soft-light; }
