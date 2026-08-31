@@ -1,0 +1,12 @@
+{
+  "radius": {
+    "none":  "0px",
+    "sm":    "2px",
+    "base":  "4px",
+    "md":    "6px",
+    "lg":    "10px",
+    "xl":    "16px",
+    "2xl":   "24px",
+    "full":  "9999px"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "Aurora Collage Visual System",
+  "visualPrinciples": [
+    "editorial calm",
+    "paper tactility",
+    "museum-shop minimalism",
+    "analog imperfection",
+    "structured modern commerce"
+  ],
+  "textureFamilies": {
+    "lithographic": {
+      "use": "fine grain, stipple, halftone edge noise",
+      "opacity": [0.08, 0.24],
+      "blendMode": "multiply"
+    },
+    "risograph": {
+      "use": "flat ink fields with misregistration",
+      "opacity": [0.16, 0.42],
+      "edge": "soft rough"
+    },
+    "newspaper": {
+      "use": "fragmented type strips, archival text blocks",
+      "opacity": [0.18, 0.55],
+      "rotation": [-8, 8]
+    },
+    "watercolor": {
+      "use": "soft organic washes behind hero copy",
+      "opacity": [0.18, 0.38],
+      "blur": [2, 10]
+    },
+    "cardstock": {
+      "use": "layered cut shapes, shadows, dimensional assemblage",
+      "shadowDepth": [2, 12]
+    }
+  },
+  "shapeLogic": {
+    "circles": "sun / product focus / riso registration mark",
+    "tornRects": "newspaper and cardstock layers",
+    "organicBlobs": "watercolor atmosphere",
+    "silhouettes": "human warmth and editorial identity",
+    "botanicalForms": "softness, lifestyle, ritual"
+  }
+}
