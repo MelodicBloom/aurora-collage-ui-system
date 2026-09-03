@@ -6,7 +6,7 @@
 
 This is not a theme. It is a material philosophy. Every token, every component, every motion curve is derived from asking: *what would this feel like if you could touch it?*
 
-**Live:** Vercel · **Stack:** Vite · React · TypeScript · Tailwind CSS v3 · **Org:** [MelodicBloom](https://github.com/MelodicBloom)
+**Deployment:** Vercel (not currently public) · **Stack:** Vite · React · TypeScript · Tailwind CSS v3 · **Org:** [MelodicBloom](https://github.com/MelodicBloom)
 
 ---
 
