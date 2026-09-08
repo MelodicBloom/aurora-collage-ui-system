@@ -1,0 +1,28 @@
+{
+  "texture": {
+    "lithographic": {
+      "use": "fine grain, stipple, halftone edge noise",
+      "opacity": [0.08, 0.24],
+      "blendMode": "multiply"
+    },
+    "risograph": {
+      "use": "flat ink fields with misregistration",
+      "opacity": [0.16, 0.42],
+      "edge": "soft rough"
+    },
+    "newspaper": {
+      "use": "fragmented type strips, archival text blocks",
+      "opacity": [0.18, 0.55],
+      "rotation": [-8, 8]
+    },
+    "watercolor": {
+      "use": "soft organic washes behind hero copy",
+      "opacity": [0.18, 0.38],
+      "blur": [2, 10]
+    },
+    "cardstock": {
+      "use": "layered cut shapes, shadows, dimensional assemblage",
+      "shadowDepth": [2, 12]
+    }
+  }
+}

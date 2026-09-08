@@ -2,161 +2,226 @@
 
 > *What if the interface itself was made from torn paper, pressed ink, and morning light?*
 
-**AURORA** is a production-ready design system built around five analog printing and collage aesthetics — lithographic texture, risograph ink, newspaper collage, watercolor washes, and papercraft assemblage — unified into a single coherent visual language for the digital surface.
+**AURORA** is a working Vite + React + TypeScript interface system exploring lithographic texture, risograph ink, newspaper collage, watercolor washes, and papercraft assemblage as a coherent digital material language.
 
-This is not a theme. It is a material philosophy. Every token, every component, every motion curve is derived from asking: *what would this feel like if you could touch it?*
+The repository currently includes routed storefront screens, reusable AURORA components, lower-level UI primitives, motion presets, visual/copy/audio packages, and CSS design tokens. Storybook and component-level interaction/visual-regression coverage are planned next-stage infrastructure rather than current capabilities.
 
-**Live:** Vercel · **Stack:** Vite · React · TypeScript · Tailwind CSS v3 · **Org:** [MelodicBloom](https://github.com/MelodicBloom)
-
----
-
-## The Five Aesthetic Layers
-
-AURORA is built from five distinct material aesthetics that layer rather than compete:
-
-**Lithographic Texture** — the foundation. Stone-ground grain, ink-on-paper surface quality, slight registration misalignment. Every surface has tooth. Nothing is perfectly flat.
-
-**Risograph Ink** — the color logic. Limited ink palette with deliberate bleed, overprint behavior, and misregistration as a design feature. Colors feel physically deposited, not painted on screen.
-
-**Newspaper Collage** — the layout language. Cut-and-paste editorial logic, headline-as-headline, column grids that echo broadsheet layout, torn-edge dividers, archival yellowing.
-
-**Watercolor Washes** — the softness layer. Gradient fields that bleed and bloom rather than transition linearly. Used for backgrounds, hover states, and emotional emphasis zones.
-
-**Papercraft Assemblage** — the dimensionality. Folded-paper shadows, layered card depth, the impression that components are physically stacked rather than rendered.
+**Deployment:** Vercel (not currently public) · **Stack:** Vite · React · TypeScript · Tailwind CSS v3 · Framer Motion · **Org:** [MelodicBloom](https://github.com/MelodicBloom)
 
 ---
 
-## Design Tokens
+## Material language
 
-### Color Palette
+AURORA layers five related aesthetics:
+
+- **Lithographic texture** — ink-on-paper grain and imperfect surface character.
+- **Risograph ink** — limited, high-character color with print-inspired overlap and emphasis.
+- **Newspaper collage** — editorial hierarchy, archival composition, cut-and-paste logic.
+- **Watercolor washes** — soft atmospheric fields and emotional emphasis.
+- **Papercraft assemblage** — layered cards, fold-like depth, and physical surface cues.
+
+These are design constraints, not separate themes. Components should remain legible and usable first, then express the material system through tokens, surface, motion, and composition.
+
+---
+
+## Implemented design tokens
+
+The canonical CSS tokens live in `src/styles/tokens.css`.
+
+### Color
 
 | Token | Value | Role |
-|-------|-------|------|
-| `--aurora-ink` | `#1A1208` | Primary text, deep shadow |
-| `--aurora-newsprint` | `#F4EDD8` | Base surface, aged paper |
-| `--aurora-cream` | `#FAF6EC` | Light surface, unprinted zone |
-| `--aurora-riso-red` | `#E84040` | Risograph accent, overprint |
-| `--aurora-riso-blue` | `#2D6BE4` | Second ink, headline emphasis |
-| `--aurora-riso-yellow` | `#F0C620` | Third ink, highlight band |
-| `--aurora-riso-green` | `#3DAA6B` | Fourth ink, nature / growth |
-| `--aurora-wash-violet` | `#C4A8D8` | Watercolor field, soft emphasis |
-| `--aurora-wash-peach` | `#F2C4A0` | Warmth wash, hover state |
-| `--aurora-torn` | `#8C7A5E` | Torn edge, fold shadow |
+|---|---:|---|
+| `--color-ink` | `#131313` | Primary ink / text |
+| `--color-charcoal` | `#383938` | Secondary dark tone |
+| `--color-paper` | `#F6EDE3` | Primary paper surface |
+| `--color-warm-paper` | `#EFE1D0` | Warm secondary surface |
+| `--color-riso-red` | `#E94F4F` | Risograph red accent |
+| `--color-riso-gold` | `#F7B74D` | Risograph gold accent |
+| `--color-water-teal` | `#4CABA2` | Water / wash accent |
+| `--color-violet-ink` | `#5E4B88` | Violet ink accent |
+| `--color-newsprint` | `#B8A891` | Newsprint / archival neutral |
+| `--color-soft-black` | `#1B1A18` | Soft-black surface / text |
 
 ### Typography
 
-| Role | Family | Weight | Notes |
-|------|--------|--------|-------|
-| Display | Playfair Display | 700–900 | Headlines, editorial authority |
-| Body | Source Serif 4 | 400–600 | Long-form reading, newsprint register |
-| Label | DM Mono | 400 | Captions, metadata, print codes |
-| Accent | Caveat | 700 | Handwritten annotation, collage labels |
+| Token | Current family |
+|---|---|
+| `--font-display` | Playfair Display, Georgia, serif |
+| `--font-body` | Inter, system-ui, sans-serif |
+| `--font-mono` | IBM Plex Mono, Courier New, monospace |
 
-### Spacing & Texture Scale
+The token file also defines the current type scale (`--text-xs` through `--text-5xl`), line-height tokens, spacing tokens (`--space-*`), radius tokens (`--radius-*`), and paper/lift shadow tokens (`--shadow-*`).
 
-Spacing follows an 8pt base grid with a `--grain` overlay CSS variable that controls texture intensity (0 = flat, 1 = heavy grain). Components consume `--grain` to modulate their surface quality contextually.
+Texture effects are currently implemented by components/styles rather than by the previously documented `--grain` scalar; consumers should not depend on a `--grain` token until one is explicitly added to the canonical token contract.
 
 ---
 
-## Component Architecture
+## Current component architecture
 
-```
+```text
 src/
+  app/
+    App.tsx
+    routes.tsx
   components/
-    layout/
-      Header.tsx           ← Broadsheet masthead header
-      Footer.tsx           ← Print colophon footer
-      PageGrid.tsx         ← Column grid with bleed zones
-    sections/
-      Hero.tsx             ← Torn-paper collage hero
-      ColorSystem.tsx      ← Ink palette specimen
-      Typography.tsx       ← Type specimen with lead lines
-      ComponentShowcase.tsx ← Interactive component gallery
-      TextureDemo.tsx      ← Live grain + wash demo
-      Journal.tsx          ← Editorial blog layout
-      CTA.tsx              ← Papercraft CTA panel
+    aurora/
+      AuroraFrame.tsx
+      CartLineItem.tsx
+      CollageCard.tsx
+      MotionPoster.tsx
+      NewspaperStrip.tsx
+      PaperLayer.tsx
+      ProductTile.tsx
+      RisoButton.tsx
+      SilhouetteFigure.tsx
+      TextureSwatch.tsx
+      WatercolorPanel.tsx
     ui/
-      Button.tsx           ← Stamp-press button variants
-      Card.tsx             ← Layered paper card with fold shadow
-      Tag.tsx              ← Risograph label tag
-      Divider.tsx          ← Torn-edge divider
-      WatercolorField.tsx  ← Procedural wash background
-      GrainOverlay.tsx     ← SVG turbulence grain layer
-    motion/
-      Reveal.tsx           ← Fold-in scroll reveal
-      Smear.tsx            ← Ink smear transition
-  data/
-    tokens.ts              ← Design token registry
-    components.ts          ← Component metadata
+      button.tsx
+      card.tsx
+      input.tsx
+  packages/
+    animation/
+    audio/
+    copy/
+    tokens/
+    visuals/
   styles/
-    globals.css            ← CSS custom properties + grain filter
+    tokens.css
+    ...
 ```
 
----
+The current split is intentional but not yet a complete public component API:
 
-## Motion Principles
+- `components/ui/` contains lower-level interface primitives.
+- `components/aurora/` contains brand/material-aware components and storefront-oriented compositions.
+- `packages/` contains reusable system data and behavior contracts.
+- `styles/tokens.css` is the canonical CSS token source.
 
-AURORA motion is governed by physical material behavior, not easing curves chosen for elegance:
-
-- **Fold-in reveal** — elements enter as if unfolding from a crease. `transform-origin` at fold line, slight perspective tilt on entry.
-- **Ink smear transition** — page transitions use an SVG displacement filter that simulates wet ink drag across the surface.
-- **Watercolor bloom** — hover states expand outward from center like watercolor bleeding into wet paper. No sharp boundaries.
-- **Grain breathe** — `--grain` intensity pulses slowly on idle states, giving the surface a living, material quality.
-
-All motion respects `prefers-reduced-motion`.
+The next architecture pass should make component boundaries, state contracts, accessibility behavior, responsive rules, and export surfaces explicit before the system is treated as a distributable component library.
 
 ---
 
-## Why These Five Aesthetics Together
+## Current interaction behavior
 
-Lithography, risography, newspaper collage, watercolor, and papercraft are not arbitrary. They are five different relationships between the maker’s hand and the printed surface:
+AURORA already uses Framer Motion for tactile interaction. For example, `RisoButton` exposes `primary`, `outline`, and `ghost` variants plus `disabled`, and implements hover/tap motion. `ProductTile` provides a routed storefront card with a lifted hover treatment.
 
-- Lithography: the stone remembers.
-- Risograph: the ink decides where it lands.
-- Collage: the archive is reorganized, not erased.
-- Watercolor: the water does half the work.
-- Papercraft: depth without mass.
+These behaviors are currently component-local. They are **not yet** governed by a shared interaction-state model or demonstrated in Storybook.
 
-Together they form a material language that is simultaneously archival and alive, structured and accidental, precise and generous. That is the tonal target for every interface that uses AURORA.
+The target state vocabulary for the next phase is:
+
+`rest` · `hover` · `focus-visible` · `active/pressed` · `selected` · `loading/listening` · `success` · `error` · `disabled/deactivated`
+
+Not every component should implement every state. Each component should declare which states are valid, what user/system event enters and exits them, the visual/motion response, ARIA semantics, reduced-motion fallback, and whether the state is controlled or internal.
 
 ---
 
-## Getting Started
+## Storybook transition target
+
+The next bounded implementation should add Storybook as an executable component contract rather than only a gallery.
+
+Minimum target:
+
+1. Storybook configured for Vite/React/TypeScript and the real AURORA global styles/tokens.
+2. Stories for the first business-critical primitives: Button, Input, Card, ProductTile, CartLineItem, and one feedback/status control.
+3. Explicit stories for valid states and variants, including keyboard focus and disabled behavior.
+4. Interaction stories that demonstrate realistic flows such as add-to-cart, quantity update, form validation, submit/loading/success, and listening/processing state transitions.
+5. Responsive viewport coverage for compact mobile, mobile, tablet, desktop, and wide desktop.
+6. Accessibility checks and keyboard-path assertions.
+7. Component-level interaction tests plus visual-regression snapshots for stable states.
+8. `prefers-reduced-motion` coverage for all animated controls.
+9. A documented export/API boundary so stories import components the same way consumers will.
+
+### Definition of done for that phase
+
+The Storybook transition is complete only when:
+
+- each selected component renders in isolation without app-router dependencies unless explicitly wrapped;
+- state/variant props are typed and documented;
+- pointer and keyboard behavior produce equivalent business outcomes;
+- disabled/deactivated controls cannot trigger actions;
+- loading/listening states expose programmatic status and do not create duplicate actions;
+- responsive stories show no horizontal overflow or clipped controls;
+- interactive stories execute the intended flow rather than merely showing static mock states;
+- accessibility checks have no serious/critical violations in the covered stories;
+- visual snapshots are deterministic enough for CI;
+- lint, typecheck, app build, Storybook build, interaction tests, and visual checks are represented as CI gates.
+
+---
+
+## Motion principles
+
+Motion should model material behavior while preserving interaction clarity:
+
+- **Press / stamp** — short compression, registration-shift, or ink-transfer response for activation.
+- **Lift / peel** — restrained z-axis/lift behavior for hover or movable surface affordance.
+- **Wash / bloom** — soft expansion for emphasis, progress, or receptive/listening states.
+- **Fold / reveal** — directional entry for disclosed content.
+- **Smear / transition** — reserved for larger transitions, not controls requiring immediate legibility.
+
+All motion must preserve a meaningful reduced-motion representation. Motion is feedback, not the only carrier of state.
+
+---
+
+## Storefront capability target
+
+The component system should be able to demonstrate common business/storefront tasks without abandoning the AURORA aesthetic:
+
+- browse/search/filter a collection;
+- inspect a product and choose options;
+- add/remove/update cart items;
+- show price, stock, discount, validation, loading, success, and error states;
+- complete an accessible form/checkout-like sequence using deterministic demo data;
+- expose navigation, dialog/drawer, toast/status, tabs/segmented choice, quantity controls, and empty states;
+- demonstrate responsive behavior and keyboard operation for each flow.
+
+These demonstration flows should use local fixtures/adapters. They should prove component wiring without coupling Storybook to a live commerce backend.
+
+---
+
+## Getting started
 
 ```bash
 git clone https://github.com/MelodicBloom/aurora-collage-ui-system
 cd aurora-collage-ui-system
-npm install
-npm run dev
+pnpm install
+pnpm dev
 # http://localhost:5173
 ```
 
-Build:
-```bash
-npm run build
-npm run preview
-```
+Quality/build commands currently available:
 
-Type check:
 ```bash
-npm run typecheck
+pnpm lint
+pnpm typecheck
+pnpm build
+pnpm preview
 ```
 
 ---
 
-## Part of the Morphica Family
+## Accessibility and QA direction
+
+The current CI runs lint, typecheck, and build. The Storybook phase should extend that baseline with component interaction, accessibility, responsive, reduced-motion, and deterministic visual-regression checks.
+
+A component is not considered complete because it looks correct in the full-page demo. It must also be independently renderable, semantically correct, keyboard-operable, responsive, state-complete for its declared contract, and testable in isolation.
+
+---
+
+## Part of the Morphica family
 
 AURORA is one system in a broader ecosystem of material-first design languages:
 
 | System | Aesthetic |
-|--------|-----------|
+|---|---|
 | [FLORÉ](https://github.com/MelodicBloom/flore-orthography-memphis-ui) | Orthography × Memphis × Illustrated Floral × Impasto |
 | [Mochi UI](https://github.com/MelodicBloom/mochi-ui) | Claymorphism · Spring physics · Haptics |
 | [Jewelmorphism](https://github.com/MelodicBloom/neumorphism-soft-ui-design-system) | Gems · Crystal · Chromatic depth |
 | [Tactile Textile](https://github.com/MelodicBloom/tactile-textile-system) | Beaded · Quilted · Material-maximalist |
 | [MÄG-RISO](https://github.com/MelodicBloom/magical-risograph) | Risograph print studio · Matter.js physics |
 
-Each system in the family asks the same question from a different material starting point. AURORA asks it from paper.
+Each system starts from a different material language while aiming for the same outcome: expressive interfaces whose behavior remains understandable, testable, and reusable.
 
 ---
 

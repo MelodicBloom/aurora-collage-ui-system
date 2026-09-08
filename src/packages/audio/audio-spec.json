@@ -1,0 +1,21 @@
+{
+  "audioSystem": {
+    "enabledByDefault": false,
+    "mood": "paper, room tone, soft analog clicks",
+    "events": {
+      "buttonHover": "soft paper lift",
+      "buttonPress": "muted ink stamp",
+      "pageTransition": "paper slide",
+      "cartAdd": "small ceramic tap"
+    },
+    "volume": {
+      "ui": 0.18,
+      "ambient": 0.06
+    },
+    "accessibility": {
+      "requiresUserGesture": true,
+      "respectReducedMotion": true,
+      "muteToggleRequired": true
+    }
+  }
+}
