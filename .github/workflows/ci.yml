@@ -1,14 +1,14 @@
 name: CI
 on:
   push:
-    branches: [main, 'feature/**', 'fix/**']
+    branches: [main, 'feature/**', 'feat/**', 'fix/**']
   pull_request:
     branches: [main, 'feature/**']
 permissions:
   contents: read
 jobs:
   build:
-    name: Lint, Typecheck, Build
+    name: Contracts, Lint, Typecheck, Build
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
@@ -23,9 +23,11 @@ jobs:
           node-version: 20
       - name: Install dependencies
         # Temporary bootstrap: the feature branch predates a committed lockfile.
-        # The Storybook foundation issue must generate and commit pnpm-lock.yaml,
-        # then restore --frozen-lockfile and pnpm caching.
+        # Issue #5 must generate and commit pnpm-lock.yaml, then restore
+        # --frozen-lockfile and pnpm caching.
         run: pnpm install --no-frozen-lockfile
+      - name: Validate component contracts
+        run: pnpm contracts:validate
       - name: Lint
         run: pnpm lint
       - name: Typecheck
