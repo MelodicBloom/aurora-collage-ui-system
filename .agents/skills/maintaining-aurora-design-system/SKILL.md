@@ -1,183 +1,65 @@
 ---
 name: maintaining-aurora-design-system
-description: Use when creating, reviewing, refactoring, styling, animating, or extending AURORA UI components, screens, Storybook stories, marketing surfaces, storefront flows, graphics, or design-system assets in this repository.
+description: Use when creating, reviewing, refactoring, styling, animating, or extending AURORA components, flows, Storybook stories, graphics, storefront surfaces, or design-system assets, especially when a change could alter the system's visual grammar, interaction language, material metaphors, or cross-scale coherence.
 ---
 
 # Maintaining the AURORA Design System
 
-## Core principle
+AURORA is not a palette or a collage aesthetic. It is a **material-semantic interface grammar**: interaction state, hierarchy, evidence, provenance, and commercial clarity are expressed through a controlled translation of paper, ink, registration, watercolor, editorial composition, and bounded imperfection.
 
-AURORA should feel like **a well-handled printed object that happens to be interactive**.
+The design target is: **a well-handled printed object that happens to be interactive**. The deeper behavioral target is: **quiet commerce — decision support without pressure**.
 
-Preserve functional clarity first, then express it through paper, ink, registration, watercolor, collage, and editorial notation. Do not add aesthetic effects that obscure state, hierarchy, evidence, or task completion.
+## Load the right layer
 
-## Canonical sources
+Do not improvise from memory.
 
-Read these before substantial visual work:
+- For visual generation, composition, hierarchy, material choice, or new component families: read `references/design-grammar.md`.
+- For interaction states, microinteractions, animation, listening/processing states, or transitions: read `references/state-motion-grammar.md`.
+- For evaluating whether work is recognizably AURORA, diagnosing drift, or reviewing screenshots/Storybook: read `references/diagnostic-scorecard.md`.
+- For creating a genuinely new visual treatment while preserving lineage: read `references/synthesis-protocol.md`.
+- For programmatic generation or structured reasoning: use `references/aurora-style-ontology.yaml`.
 
-- `src/styles/tokens.css` — canonical color, type, spacing, radius, shadow values.
-- `src/styles/textures.css` — approved material textures and blend treatments.
-- `src/styles/motion.css` — existing reduced-motion behavior and base motion utilities.
-- `src/system/component-contract.schema.json` — state/evidence contract.
-- `src/system/contracts/` — component-specific behavioral truth.
-- `docs/AURORA_VISUAL_AUDIT_AND_BUILD_ORDERS_V1.md` — current visual diagnosis and bounded evolution priorities.
-- `public/brand/aurora-mark.svg` and `public/brand/aurora-social-card.svg` — current brand-expression references.
+Also inspect the live repository truth before substantial changes:
+`src/styles/tokens.css`, `src/styles/textures.css`, `src/styles/motion.css`, `src/system/component-contract.schema.json`, `src/system/contracts/`, `docs/AURORA_VISUAL_AUDIT_AND_BUILD_ORDERS_V1.md`, and current rendered evidence.
 
-If code and prose disagree, prefer executable tokens/contracts and open a documentation correction.
+If executable tokens/contracts and prose disagree, executable truth wins and documentation must be corrected.
 
-## AURORA visual grammar
+## Non-negotiable invariants
 
-Use material metaphors for bounded jobs:
+1. **Semantics precede material.** Determine task, state, hierarchy, evidence, and consequence before choosing texture, ink, motion, or irregularity.
+2. **Material has meaning.** Paper = containment/provenance; riso registration = activation/relationship; watercolor = emergence/soft emphasis; collage = association/evidence; mono/newsprint = traceability/status.
+3. **Imperfection is bounded.** Misregistration, rotation, overlap, grain, clipping, and asymmetry must operate inside declared ranges and cannot degrade reading order, hit targets, contrast, or deterministic testing.
+4. **One visual thesis per region.** Do not stack every AURORA mechanism on every component.
+5. **The interface remains useful without styling.** Remove color/texture/motion mentally: hierarchy, state, action, and evidence must still work.
+6. **Quiet commerce is not passive commerce.** CTAs may be strong, but never use fake urgency, manipulative scarcity, motion pressure, obscured pricing, or information withholding.
+7. **Variation must preserve lineage.** New work should be recognizably related without becoming template repetition.
+8. **No evidence laundering.** Hypotheses remain hypotheses until instrumented and measured.
 
-| Material | Meaning | Appropriate use |
-|---|---|---|
-| Paper | containment, provenance, hierarchy | cards, sheets, drawers, receipts, evidence groups |
-| Risograph registration | pressure, activation, relationship | press, selected/unselected, active state, status change |
-| Watercolor | gradual/emergent emphasis | selection bloom, background emphasis, progress arrival |
-| Collage | relationship and editorial memory | comparisons, case-study evidence, collections, grouped proof |
-| Mono/newsprint notation | traceability and status | metadata, edition labels, receipts, diagnostics |
+## Required design reasoning output
 
-Do not use a material metaphor merely because it looks attractive.
+For any non-trivial visual or interaction change, internally resolve:
 
-## Color and type discipline
+`task → semantic state → information hierarchy → material carrier → spatial operation → motion operator → accessibility equivalent → evidence/measurement → compatibility → rollback`
 
-Use existing CSS variables before adding any color or font. New tokens require a concrete missing semantic role, at least two expected consumers, and a review note explaining why composition from current tokens is insufficient.
+When reviewing or handing off substantial work, expose the consequential parts of that chain in the artifact or decision note.
 
-Default roles:
+## Change classes
 
-- `--color-ink` / `--color-charcoal`: primary text and structural linework.
-- `--color-paper` / `--color-warm-paper`: page and raised paper surfaces.
-- `--color-riso-red`: primary active/attention accent.
-- `--color-riso-gold`: warm emphasis and secondary print accent.
-- `--color-water-teal`: complementary state/material accent.
-- `--color-violet-ink`: rare tertiary/editorial accent.
-- Display typography: `--font-display`.
-- UI/body: `--font-body`.
-- Metadata/status/edition language: `--font-mono`.
+- **Preservation**: restore drift to canonical grammar.
+- **Extension**: new instance/family generated from existing grammar.
+- **Evolution**: alter grammar because a recurring use case cannot be expressed adequately.
+- **Experiment**: isolated hypothesis with explicit comparison and rollback.
 
-Never replace the palette with generic neutral SaaS grays or add arbitrary gradients as a shortcut.
+Evolution requires evidence of a repeated gap, comparison against at least two existing mechanisms, compatibility analysis, and a migration/rollback path. Never promote an experiment into canon because it merely looks good once.
 
-## Composition rules
+## Component completion rule
 
-Prefer:
+A component is incomplete until its meaningful states are isolated, visually differentiated, keyboard/pointer equivalent, reduced-motion compatible, responsive, and reproducible outside the app shell. Its contract must distinguish valid and forbidden transitions and must map presentation mechanisms to semantic function.
 
-- generous negative space;
-- clear paper-surface grouping;
-- asymmetry with stable reading order;
-- one dominant visual decision per region;
-- evidence before ornament;
-- editorial hierarchy rather than dashboard density;
-- border/shadow restraint;
-- small, bounded imperfections rather than uncontrolled randomness.
+## Anti-collapse rule
 
-Avoid:
+Reject changes that collapse AURORA into any easier generic category: SaaS minimalism, glassmorphism, neon cyberpunk, rounded-card dashboard language, generic editorial luxury, arbitrary scrapbook collage, or decorative “organic” blobs. Borrowing an external technique is allowed only after translating it into AURORA's semantic/material grammar.
 
-- excessive rounded cards that make every region equivalent;
-- glassmorphism, neon glow, generic mesh gradients, or “AI purple” styling;
-- decorative blobs with no semantic purpose;
-- texture beneath small critical text;
-- nested shadows and textures on every surface;
-- large visual flourishes that delay a primary action.
+## Verification
 
-## Texture hierarchy
-
-Classify each surface before adding texture:
-
-1. `none` — form controls, small text, dense evidence.
-2. `ambient` — page-level low-frequency grain/litho atmosphere.
-3. `surface` — paper/card texture that reinforces containment.
-4. `evidence-emphasis` — rare higher-character treatment for a specimen, poster, or bounded feature.
-
-Never stack multiple high-frequency textures in one reading region.
-
-## Motion grammar
-
-Motion must communicate cause, continuity, state, hierarchy, or completion.
-
-Preferred governed recipes:
-
-- **Press Register** — riso ghost layers misregister on actuation and settle.
-- **Decision Bloom** — watercolor emphasis expands and resolves into a selected state.
-- **Paper Peel** — removal reveals a folded/peeled transition and preserves undo.
-- **Listening Registration** — registration rings respond to normalized input/status and re-align during processing.
-- **Archive Reveal** — supporting content behaves like an insert drawn from beneath a parent sheet.
-- **Paper Lift** — use only for low-stakes hover elevation.
-
-Every motion must provide:
-
-- a functional meaning;
-- deterministic test mode;
-- reduced-motion equivalent;
-- keyboard/pointer parity;
-- no artificial wait after the underlying action completes.
-
-Do not introduce generic fade/scale motion if an AURORA state recipe expresses the same function more clearly.
-
-## Component maintenance protocol
-
-Before changing a component:
-
-1. Identify its buyer/user task, not only its visual role.
-2. Read or create its contract in `src/system/contracts/`.
-3. Enumerate valid states and forbidden transitions.
-4. Verify native semantics, keyboard behavior, focus-visible treatment, disabled/deactivated behavior, async status exposure, and responsive invariants.
-5. Choose the minimum material/motion expression that makes those states clearer.
-6. Add or update deterministic Storybook stories and interaction tests.
-7. Check 390px and 1440px minimum; use the full viewport matrix when the component changes layout.
-8. Test reduced motion and forced colors.
-9. Run contract validation, lint, typecheck, build, Storybook tests, a11y, and visual regression gates available in the branch.
-
-A component is not finished because the default state looks correct.
-
-## Commercial and portfolio evidence
-
-Do not claim that a styling choice “increases conversion,” “gets more leads,” or “improves engagement” without measured evidence.
-
-Record:
-
-`buyer need → mechanism hypothesis → observable event → success metric → guardrail → evidence status`
-
-Use `hypothesis`, `implemented-unmeasured`, `instrumented`, `measured`, or `rejected` exactly as defined by the component contract.
-
-Prefer proof surfaces that demonstrate capability directly: interactive Storybook states, responsive flows, source links, test receipts, visual comparisons, and reusable assets.
-
-## Graphics and marketing assets
-
-Brand graphics should look related to the UI without merely screenshotting it. Favor registration offsets, editorial crops, paper fields, mono metadata, and one strong typographic or geometric focal structure.
-
-For thumbnails/social cards:
-
-- preserve legibility at small size;
-- keep one dominant message;
-- use at most 2–3 accent inks at once;
-- avoid embedding critical text in noisy texture;
-- export deterministic source SVG where possible, then raster derivatives.
-
-## Change classification
-
-Classify visual changes before implementation:
-
-- **Preservation** — fixes drift back to existing system truth.
-- **Extension** — adds a new component using existing grammar.
-- **Evolution** — changes grammar/tokens because a proven use case cannot be expressed well otherwise.
-- **Experiment** — intentionally tests a hypothesis and must remain isolated until evaluated.
-
-Evolution requires a short decision note with: problem, alternatives, affected tokens/components, accessibility impact, compatibility impact, and rollback path.
-
-## Stop conditions
-
-Stop and open a narrower issue if:
-
-- a new token is being added for one isolated instance;
-- a visual treatment requires app-global state just to render;
-- animation cannot be made deterministic for testing;
-- a material effect reduces contrast, target size, content legibility, or response speed;
-- a component cannot be rendered independently in Storybook;
-- a proposed “brand improvement” conflicts with native semantics or accessibility;
-- the only justification is “looks more modern.”
-
-## Review question
-
-Before approving a change, ask:
-
-> If the texture, color, and animation were removed, would the hierarchy, state, evidence, and action still be understandable? If yes, restore only the material cues that make the interaction more distinctly AURORA and more legible—not merely more decorated.
+Before approval, apply the diagnostic scorecard. A high-fidelity result must pass **functional clarity**, **semantic-material fit**, **composition**, **interaction lineage**, **bounded imperfection**, **responsive integrity**, and **evidence discipline**. A visually attractive result that fails semantic-material fit is not AURORA.
