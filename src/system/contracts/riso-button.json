@@ -1,0 +1,43 @@
+{
+  "id": "riso-button",
+  "component": "RisoButton",
+  "purpose": "Primary and secondary actions with tactile AURORA feedback while preserving native button semantics.",
+  "states": ["rest", "hover", "focus-visible", "pressed", "pending", "success", "error", "disabled"],
+  "transitions": [
+    { "from": "rest", "event": "pointer_enter", "to": "hover" },
+    { "from": "rest", "event": "focus_keyboard", "to": "focus-visible" },
+    { "from": "hover", "event": "pointer_down", "to": "pressed" },
+    { "from": "focus-visible", "event": "key_activate", "to": "pressed" },
+    { "from": "pressed", "event": "async_start", "to": "pending", "forbiddenWhen": ["disabled"] },
+    { "from": "pending", "event": "async_success", "to": "success" },
+    { "from": "pending", "event": "async_error", "to": "error" }
+  ],
+  "accessibility": {
+    "role": "button",
+    "keyboard": ["Enter activates", "Space activates", "focus remains visible", "disabled prevents activation"],
+    "statusExposure": "Pending/success/error labels are exposed as visible text and async status is announced by the owning flow.",
+    "aria": ["disabled or aria-disabled according to implementation ownership"],
+    "focusVisible": true
+  },
+  "responsive": {
+    "viewports": [360, 390, 768, 1024, 1440],
+    "invariants": ["minimum 44px interactive height", "label never clips", "pending label does not shift surrounding layout"]
+  },
+  "motion": {
+    "recipe": "press-register",
+    "functionalMeaning": "Ink ghost layers briefly move out of registration at physical press, then settle to confirm actuation.",
+    "reducedMotion": "No displacement; use immediate ink-density and outline change.",
+    "deterministicTestMode": true
+  },
+  "businessEvidence": {
+    "buyerNeed": "A clear, trustworthy next action without high-pressure visual treatment.",
+    "mechanismHypothesis": "Distinct press and pending feedback reduces uncertainty and accidental repeated activation while retaining brand recognition.",
+    "observableEvents": ["cta.impression", "cta.activate", "cta.pending", "cta.success", "cta.error", "cta.duplicate_blocked"],
+    "successMetrics": ["activation-to-success rate", "duplicate activation rate", "qualified CTA completion rate"],
+    "guardrails": ["keyboard activation parity", "error recovery rate", "no increase in accidental activation"],
+    "employmentSignal": "Demonstrates stateful React component engineering, accessibility, motion-system design, and testable commercial UI behavior.",
+    "shareLeadSignal": "Reusable CTA proof can be linked directly from Storybook in client/employer outreach."
+  },
+  "evidenceStatus": "implemented-unmeasured",
+  "sourceRefs": ["src/components/aurora/RisoButton.tsx", "issues/5"]
+}
