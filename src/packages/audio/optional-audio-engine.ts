@@ -19,8 +19,8 @@ class AudioEngine {
     try {
       this.audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       await this.audioContext.resume();
-    } catch (_e) {
-      // fail silently
+    } catch {
+      // Optional enhancement: unavailable audio must never block interface use.
     }
   }
 
