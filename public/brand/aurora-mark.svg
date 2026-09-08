@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AURORA registration fold mark</title>
+  <desc id="desc">A folded paper A crossed by misregistered risograph sunrise arcs.</desc>
+  <rect width="512" height="512" rx="112" fill="#F6EDE3"/>
+  <path d="M110 391 235 112h49l118 279h-66l-26-66H195l-27 66h-58Zm108-123h70l-34-91-36 91Z" fill="#131313"/>
+  <path d="M175 209c47-72 119-103 211-77" fill="none" stroke="#E94F4F" stroke-width="24" stroke-linecap="round" opacity=".86"/>
+  <path d="M165 224c51-71 125-98 215-68" fill="none" stroke="#4CABA2" stroke-width="16" stroke-linecap="round" opacity=".76"/>
+  <path d="M193 325 254 177l25 66-31 82h-55Z" fill="#F7B74D" opacity=".9" style="mix-blend-mode:multiply"/>
+  <path d="M110 391h292" stroke="#131313" stroke-width="8" stroke-linecap="round" opacity=".22"/>
+  <circle cx="390" cy="128" r="9" fill="#5E4B88"/>
+  <circle cx="407" cy="144" r="5" fill="#E94F4F"/>
+</svg>
