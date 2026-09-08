@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://melodicbloom.dev/schemas/aurora-component-contract-v1.json",
+  "title": "AURORA Component Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "component", "purpose", "states", "accessibility", "responsive", "motion", "businessEvidence", "evidenceStatus"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "component": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 12 },
+    "states": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["rest", "hover", "focus-visible", "pressed", "selected", "pending", "listening", "success", "error", "disabled", "deactivated"]
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "event", "to"],
+        "properties": {
+          "from": { "type": "string" },
+          "event": { "type": "string" },
+          "to": { "type": "string" },
+          "forbiddenWhen": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "keyboard", "statusExposure"],
+      "properties": {
+        "role": { "type": "string" },
+        "keyboard": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "statusExposure": { "type": "string" },
+        "aria": { "type": "array", "items": { "type": "string" } },
+        "focusVisible": { "type": "boolean", "const": true }
+      }
+    },
+    "responsive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["viewports", "invariants"],
+      "properties": {
+        "viewports": {
+          "type": "array",
+          "minItems": 3,
+          "items": { "type": "integer", "enum": [360, 390, 768, 1024, 1440] }
+        },
+        "invariants": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recipe", "functionalMeaning", "reducedMotion", "deterministicTestMode"],
+      "properties": {
+        "recipe": { "type": "string", "enum": ["none", "press-register", "decision-bloom", "paper-peel", "listening-registration", "archive-reveal", "paper-lift"] },
+        "functionalMeaning": { "type": "string" },
+        "reducedMotion": { "type": "string" },
+        "deterministicTestMode": { "type": "boolean", "const": true }
+      }
+    },
+    "businessEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["buyerNeed", "mechanismHypothesis", "observableEvents", "successMetrics", "guardrails"],
+      "properties": {
+        "buyerNeed": { "type": "string", "minLength": 8 },
+        "mechanismHypothesis": { "type": "string", "minLength": 12 },
+        "observableEvents": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^[a-z0-9_.-]+$" } },
+        "successMetrics": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "guardrails": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "employmentSignal": { "type": "string" },
+        "shareLeadSignal": { "type": "string" }
+      }
+    },
+    "evidenceStatus": {
+      "type": "string",
+      "enum": ["hypothesis", "implemented-unmeasured", "instrumented", "measured", "rejected"]
+    },
+    "sourceRefs": { "type": "array", "items": { "type": "string" } }
+  }
+}
