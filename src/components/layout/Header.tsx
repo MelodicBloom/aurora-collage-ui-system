@@ -5,12 +5,20 @@ import { Button } from '../ui/Button';
 interface HeaderProps {
   onOpenStudio?: () => void;
   onOpenExport?: () => void;
+  showRegistrationMarks?: boolean;
+  onToggleRegistrationMarks?: () => void;
+  showBleedMargin?: boolean;
+  onToggleBleedMargin?: () => void;
   activeSection?: string;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onOpenStudio,
   onOpenExport,
+  showRegistrationMarks = true,
+  onToggleRegistrationMarks,
+  showBleedMargin = true,
+  onToggleBleedMargin,
   activeSection = 'hero',
 }) => {
   return (
@@ -24,9 +32,39 @@ export const Header: React.FC<HeaderProps> = ({
           <span>•</span>
           <span className="hidden sm:inline">MELODICBLOOM PRESS</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="hidden md:inline">WEATHER: 64°F · FAVORABLE FOR SLOW SOY DRYING</span>
-          <span className="text-[#E84040] font-semibold">● LIVE PROOF EDITION</span>
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          {onToggleBleedMargin && (
+            <button
+              onClick={onToggleBleedMargin}
+              className={`px-2 py-0.5 border text-[10px] uppercase font-mono-code flex items-center gap-1 cursor-pointer transition-colors ${
+                showBleedMargin
+                  ? 'border-[#E84040] text-[#E84040] bg-[#E84040]/10 font-bold'
+                  : 'border-[#1A1208]/30 text-[#8C7A5E] hover:border-[#1A1208]'
+              }`}
+              title="Toggle Faded Red Dotted Bleed Margin & Safe Area"
+            >
+              <span>✁</span>
+              <span>Bleed Margin: {showBleedMargin ? 'ON' : 'OFF'}</span>
+            </button>
+          )}
+
+          {onToggleRegistrationMarks && (
+            <button
+              onClick={onToggleRegistrationMarks}
+              className={`px-2 py-0.5 border text-[10px] uppercase font-mono-code flex items-center gap-1 cursor-pointer transition-colors ${
+                showRegistrationMarks
+                  ? 'border-[#E84040] text-[#E84040] bg-[#E84040]/10 font-bold'
+                  : 'border-[#1A1208]/30 text-[#8C7A5E] hover:border-[#1A1208]'
+              }`}
+              title="Toggle Traditional Offset Crop Marks & Crosshairs"
+            >
+              <span>✛</span>
+              <span>Registration Marks: {showRegistrationMarks ? 'ON' : 'OFF'}</span>
+            </button>
+          )}
+          <span className="hidden lg:inline">•</span>
+          <span className="hidden md:inline">WEATHER: 64°F · SLOW SOY DRYING</span>
+          <span className="text-[#E84040] font-semibold">● LIVE PROOF</span>
         </div>
       </div>
 
@@ -141,12 +179,45 @@ export const Header: React.FC<HeaderProps> = ({
             <li>•</li>
             <li>
               <a
+                href="#seasonal"
+                className={`hover:text-[#E84040] transition-colors py-1 ${
+                  activeSection === 'seasonal' ? 'font-bold text-[#E84040] border-b-2 border-[#E84040]' : ''
+                }`}
+              >
+                Seasonal Layouts
+              </a>
+            </li>
+            <li>•</li>
+            <li>
+              <a
+                href="#mobile-showcase"
+                className={`hover:text-[#E84040] transition-colors py-1 ${
+                  activeSection === 'mobile-showcase' ? 'font-bold text-[#E84040] border-b-2 border-[#E84040]' : ''
+                }`}
+              >
+                Mobile System
+              </a>
+            </li>
+            <li>•</li>
+            <li>
+              <a
+                href="#asset-library"
+                className={`hover:text-[#E84040] transition-colors py-1 ${
+                  activeSection === 'asset-library' ? 'font-bold text-[#E84040] border-b-2 border-[#E84040]' : ''
+                }`}
+              >
+                Asset Kit
+              </a>
+            </li>
+            <li>•</li>
+            <li>
+              <a
                 href="#journal"
                 className={`hover:text-[#E84040] transition-colors py-1 ${
                   activeSection === 'journal' ? 'font-bold text-[#E84040] border-b-2 border-[#E84040]' : ''
                 }`}
               >
-                Editorial Journal
+                Journal
               </a>
             </li>
           </ul>

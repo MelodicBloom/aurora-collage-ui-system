@@ -6,36 +6,54 @@ import { Button } from '../ui/Button';
 interface TextureDemoProps {
   grainIntensity: number;
   setGrainIntensity: (val: number) => void;
+  risoNoiseIntensity?: number;
+  setRisoNoiseIntensity?: (val: number) => void;
+  showRisoNoise?: boolean;
+  setShowRisoNoise?: (val: boolean) => void;
+  showRegistrationMarks?: boolean;
+  onToggleRegistrationMarks?: () => void;
+  showBleedMargin?: boolean;
+  onToggleBleedMargin?: () => void;
 }
 
 export const TextureDemo: React.FC<TextureDemoProps> = ({
   grainIntensity,
   setGrainIntensity,
+  risoNoiseIntensity = 0.35,
+  setRisoNoiseIntensity,
+  showRisoNoise = true,
+  setShowRisoNoise,
+  showRegistrationMarks = true,
+  onToggleRegistrationMarks,
+  showBleedMargin = true,
+  onToggleBleedMargin,
 }) => {
   const [misregX, setMisregX] = useState<number>(1.8);
   const [misregY, setMisregY] = useState<number>(-1.2);
   const [halftoneScale, setHalftoneScale] = useState<number>(8);
-  const [paperAging, setPaperAging] = useState<number>(5); // 0 to 15%
   const [copiedCSS, setCopiedCSS] = useState(false);
 
   // Sync to root CSS custom properties
   useEffect(() => {
     document.documentElement.style.setProperty('--grain', grainIntensity.toString());
+    document.documentElement.style.setProperty('--riso-noise', risoNoiseIntensity.toString());
     document.documentElement.style.setProperty('--misregistration-x', `${misregX}px`);
     document.documentElement.style.setProperty('--misregistration-y', `${misregY}px`);
-  }, [grainIntensity, misregX, misregY]);
+  }, [grainIntensity, risoNoiseIntensity, misregX, misregY]);
 
   const handleReset = () => {
     setGrainIntensity(0.45);
+    if (setRisoNoiseIntensity) setRisoNoiseIntensity(0.35);
+    if (setShowRisoNoise) setShowRisoNoise(true);
     setMisregX(1.5);
     setMisregY(-1.0);
     setHalftoneScale(8);
-    setPaperAging(5);
   };
 
   const handleCopyVariables = () => {
     const cssCode = `:root {
   --grain: ${grainIntensity.toFixed(2)};
+  --riso-noise: ${risoNoiseIntensity.toFixed(2)};
   --misregistration-x: ${misregX.toFixed(1)}px;
   --misregistration-y: ${misregY.toFixed(1)}px;
   --halftone-size: ${halftoneScale}px;
@@ -57,7 +75,7 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
             </span>
           </div>
           <h2 className="font-display font-black text-3xl sm:text-4xl text-[#1A1208] uppercase">
-            Live Grain & Misregistration Studio
+            Live Grain, Riso Noise & Bleed Studio
           </h2>
         </div>
         <div className="flex items-center gap-2">
@@ -92,10 +110,10 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
             </h3>
           </div>
 
-          {/* Slider 1: Grain Intensity */}
+          {/* Slider 1: Litho Grain Intensity */}
           <div>
             <div className="flex justify-between font-mono-code text-xs mb-1.5">
-              <span className="text-[#1A1208] font-bold">--grain Intensity (Stone Tooth):</span>
+              <span className="text-[#1A1208] font-bold">--grain (Litho Stone Tooth):</span>
               <span className="text-[#E84040] font-mono-code">{grainIntensity.toFixed(2)}</span>
             </div>
             <input
@@ -108,11 +126,33 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
               className="w-full accent-[#E84040] cursor-pointer"
             />
             <span className="font-mono-code text-[10px] text-[#8C7A5E] block mt-1">
-              0.0 = Glass / Sterile digital · 0.45 = Authentic rag · 1.0 = Heavy stone litho
+              Stone tooth grain applied globally across the canvas
             </span>
           </div>
 
-          {/* Slider 2: Misregistration Offset X */}
+          {/* Slider 2: Riso Stipple Noise Texture */}
+          {setRisoNoiseIntensity && (
+            <div>
+              <div className="flex justify-between font-mono-code text-xs mb-1.5">
+                <span className="text-[#1A1208] font-bold">--riso-noise (Stipple & Mesh):</span>
+                <span className="text-[#2D6BE4] font-mono-code">{risoNoiseIntensity.toFixed(2)}</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="0.8"
+                step="0.05"
+                value={risoNoiseIntensity}
+                onChange={(e) => setRisoNoiseIntensity(parseFloat(e.target.value))}
+                className="w-full accent-[#2D6BE4] cursor-pointer"
+              />
+              <span className="font-mono-code text-[10px] text-[#8C7A5E] block mt-1">
+                Simulates thermal master screen perforations and soy ink dot stippling
+              </span>
+            </div>
+          )}
+
+          {/* Slider 3: Misregistration Offset X */}
           <div>
             <div className="flex justify-between font-mono-code text-xs mb-1.5">
               <span className="text-[#1A1208] font-bold">Misregistration X-Axis (Drum Drift):</span>
@@ -132,7 +172,7 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
             </span>
           </div>
 
-          {/* Slider 3: Misregistration Offset Y */}
+          {/* Slider 4: Misregistration Offset Y */}
           <div>
             <div className="flex justify-between font-mono-code text-xs mb-1.5">
               <span className="text-[#1A1208] font-bold">Misregistration Y-Axis:</span>
@@ -149,7 +189,7 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
             />
           </div>
 
-          {/* Slider 4: Halftone Screen Pitch */}
+          {/* Slider 5: Halftone Screen Pitch */}
           <div>
             <div className="flex justify-between font-mono-code text-xs mb-1.5">
               <span className="text-[#1A1208] font-bold">Halftone Screen Pitch:</span>
@@ -164,6 +204,88 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
               onChange={(e) => setHalftoneScale(parseInt(e.target.value))}
               className="w-full accent-[#3DAA6B] cursor-pointer"
             />
+          </div>
+
+          {/* Press Guide Toggles */}
+          <div className="pt-4 border-t border-[#1A1208]/20 space-y-3">
+            <span className="font-mono-code text-xs text-[#8C7A5E] uppercase font-bold block">
+              Press Guide & Proof Overlays:
+            </span>
+
+            {/* Toggle: Bleed Margin */}
+            {onToggleBleedMargin && (
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-mono-code text-xs font-bold text-[#1A1208] block">
+                    Bleed Margin (Safe Print Area)
+                  </span>
+                  <span className="font-mono-code text-[10px] text-[#8C7A5E]">
+                    Faded red dotted line (+3mm) around content
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onToggleBleedMargin}
+                  className={`px-3 py-1 border font-mono-code text-xs cursor-pointer select-none transition-all ${
+                    showBleedMargin
+                      ? 'bg-[#E84040] text-[#FAF6EC] border-[#1A1208] shadow-[1px_1px_0px_#1A1208] font-bold'
+                      : 'bg-[#F4EDD8] text-[#8C7A5E] border-[#8C7A5E]/40'
+                  }`}
+                >
+                  {showBleedMargin ? 'ENABLED' : 'DISABLED'}
+                </button>
+              </div>
+            )}
+
+            {/* Toggle: Offset Registration Marks */}
+            {onToggleRegistrationMarks && (
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-mono-code text-xs font-bold text-[#1A1208] block">
+                    Registration Marks & Crosshairs
+                  </span>
+                  <span className="font-mono-code text-[10px] text-[#8C7A5E]">
+                    Offset corner crosshairs and crop markers
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onToggleRegistrationMarks}
+                  className={`px-3 py-1 border font-mono-code text-xs cursor-pointer select-none transition-all ${
+                    showRegistrationMarks
+                      ? 'bg-[#E84040] text-[#FAF6EC] border-[#1A1208] shadow-[1px_1px_0px_#1A1208]'
+                      : 'bg-[#F4EDD8] text-[#8C7A5E] border-[#8C7A5E]/40'
+                  }`}
+                >
+                  {showRegistrationMarks ? 'ENABLED' : 'DISABLED'}
+                </button>
+              </div>
+            )}
+
+            {/* Toggle: Riso Noise Layer */}
+            {setShowRisoNoise && (
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="font-mono-code text-xs font-bold text-[#1A1208] block">
+                    Riso Noise Texture Layer
+                  </span>
+                  <span className="font-mono-code text-[10px] text-[#8C7A5E]">
+                    Stipple dot screen & soy ink emulsion grain
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowRisoNoise(!showRisoNoise)}
+                  className={`px-3 py-1 border font-mono-code text-xs cursor-pointer select-none transition-all ${
+                    showRisoNoise
+                      ? 'bg-[#2D6BE4] text-[#FAF6EC] border-[#1A1208] shadow-[1px_1px_0px_#1A1208]'
+                      : 'bg-[#F4EDD8] text-[#8C7A5E] border-[#8C7A5E]/40'
+                  }`}
+                >
+                  {showRisoNoise ? 'ACTIVE' : 'OFF'}
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -182,13 +304,23 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
             </h3>
           </div>
 
-          {/* Misregistration Sample Card */}
-          <div className="bg-[#F4EDD8] border border-[#1A1208] p-6 mb-6 relative">
+          {/* Misregistration Sample Card with Live Riso Noise Texture */}
+          <div className="bg-[#F4EDD8] border border-[#1A1208] p-6 mb-6 relative overflow-hidden">
+            {/* Halftone Pitch */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 backgroundImage: `radial-gradient(rgba(26, 18, 8, 0.15) 1px, transparent 1px)`,
                 backgroundSize: `${halftoneScale}px ${halftoneScale}px`,
+              }}
+            />
+
+            {/* Riso Stipple Noise Pattern inside Proof Box */}
+            <div
+              className="absolute inset-0 pointer-events-none riso-noise-stipple"
+              style={{
+                opacity: risoNoiseIntensity,
+                mixBlendMode: 'multiply',
               }}
             />
 
@@ -226,36 +358,36 @@ export const TextureDemo: React.FC<TextureDemoProps> = ({
             </div>
 
             <p className="font-body text-xs text-center text-[#1A1208]/80 mt-2 italic">
-              Notice the chromatic fringing along letterforms when misregistration is dialed away from zero.
+              Notice the chromatic fringing and stipple dot noise texture across the ink surface.
             </p>
           </div>
 
           {/* Microscopic Fiber Inspection Frame */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-[#FAF6EC] border border-[#1A1208]/40 p-4">
+            <div className="bg-[#FAF6EC] border border-[#1A1208]/40 p-4 relative">
               <span className="font-mono-code text-[11px] text-[#8C7A5E] uppercase block mb-1">
-                FIBER RESISTANCE:
+                RISO NOISE STIPPLE:
               </span>
               <div className="font-mono-code text-sm font-bold text-[#1A1208]">
-                {grainIntensity > 0.6 ? 'HEAVY COLD-PRESS' : 'SMOOTH LINEN RAG'}
+                {showRisoNoise ? `${(risoNoiseIntensity * 100).toFixed(0)}% SOY DENSITY` : 'DISABLED'}
               </div>
               <div className="mt-2 h-2 bg-[#8C7A5E]/20 overflow-hidden">
                 <div
-                  className="h-full bg-[#E84040] transition-all"
-                  style={{ width: `${grainIntensity * 100}%` }}
+                  className="h-full bg-[#2D6BE4] transition-all"
+                  style={{ width: `${showRisoNoise ? risoNoiseIntensity * 125 : 0}%` }}
                 />
               </div>
             </div>
 
             <div className="bg-[#FAF6EC] border border-[#1A1208]/40 p-4">
               <span className="font-mono-code text-[11px] text-[#8C7A5E] uppercase block mb-1">
-                REGISTRATION QUALITY:
+                SAFE MARGIN BLEED (+3mm):
               </span>
-              <div className="font-mono-code text-sm font-bold text-[#1A1208]">
-                {Math.abs(misregX) < 1.0 && Math.abs(misregY) < 1.0 ? 'PRECISION ALIGNED' : 'ACCIDENTAL CHARM'}
+              <div className="font-mono-code text-sm font-bold text-[#E84040]">
+                {showBleedMargin ? 'PROTECTED' : 'UNMONITORED'}
               </div>
-              <div className="mt-2 font-mono-code text-xs text-[#8C7A5E]">
-                Δ {(Math.sqrt(misregX * misregX + misregY * misregY)).toFixed(2)} mm
+              <div className="mt-2 font-mono-code text-[11px] text-[#8C7A5E]">
+                {showBleedMargin ? 'Faded Red Dotted Guide Active' : 'Trim Guides Hidden'}
               </div>
             </div>
           </div>

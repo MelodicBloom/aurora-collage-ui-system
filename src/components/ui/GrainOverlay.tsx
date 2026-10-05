@@ -2,11 +2,15 @@ import React from 'react';
 
 interface GrainOverlayProps {
   intensity?: number;
+  risoNoiseIntensity?: number;
+  showRisoNoise?: boolean;
   className?: string;
 }
 
 export const GrainOverlay: React.FC<GrainOverlayProps> = ({
   intensity = 0.45,
+  risoNoiseIntensity = 0.35,
+  showRisoNoise = true,
   className = '',
 }) => {
   return (
@@ -14,6 +18,7 @@ export const GrainOverlay: React.FC<GrainOverlayProps> = ({
       {/* Hidden SVG Filter Definition */}
       <svg className="pointer-events-none fixed -top-[1000px] -left-[1000px] h-0 w-0 opacity-0" aria-hidden="true">
         <defs>
+          {/* Lithographic stone-ground tooth filter */}
           <filter id="aurora-litho-grain" x="0%" y="0%" width="100%" height="100%">
             <feTurbulence
               type="fractalNoise"
@@ -30,6 +35,26 @@ export const GrainOverlay: React.FC<GrainOverlayProps> = ({
             <feBlend mode="multiply" in="SourceGraphic" in2="coloredNoise" />
           </filter>
 
+          {/* Riso Thermal Drum Stipple Noise Filter */}
+          <filter id="aurora-riso-stipple" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="1.45"
+              numOctaves="2"
+              stitchTiles="stitch"
+              result="stipple"
+            />
+            <feColorMatrix
+              type="matrix"
+              values="
+                0 0 0 0 0.9   
+                0 0 0 0 0.25   
+                0 0 0 0 0.25   
+                0 0 0 0.6 0"
+              result="risoDots"
+            />
+          </filter>
+
           {/* Torn Edge Displacement Filter */}
           <filter id="aurora-torn-edge">
             <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
@@ -38,7 +63,7 @@ export const GrainOverlay: React.FC<GrainOverlayProps> = ({
         </defs>
       </svg>
 
-      {/* Fullscreen Grain Layer */}
+      {/* Fullscreen Lithographic Stone Tooth Grain Layer */}
       <div
         className={`pointer-events-none fixed inset-0 z-50 transition-opacity duration-300 ${className}`}
         style={{
@@ -49,6 +74,18 @@ export const GrainOverlay: React.FC<GrainOverlayProps> = ({
         }}
         aria-hidden="true"
       />
+
+      {/* Fullscreen Riso Drum Stipple & Soy Ink Noise Texture Layer */}
+      {showRisoNoise && (
+        <div
+          className="pointer-events-none fixed inset-0 z-40 transition-opacity duration-300 riso-noise-stipple"
+          style={{
+            opacity: risoNoiseIntensity,
+            mixBlendMode: 'multiply',
+          }}
+          aria-hidden="true"
+        />
+      )}
     </>
   );
 };
