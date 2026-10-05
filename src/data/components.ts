@@ -94,4 +94,18 @@ export const COMPONENTS_CATALOG: ComponentDoc[] = [
     ],
     usageSnippet: `<GrainOverlay intensity={0.45} />`,
   },
+  {
+    id: 'ink-blot',
+    name: 'Wet-on-Dry InkBlot',
+    category: 'Surfaces',
+    aesthetic: 'Lithography',
+    description: 'Capillary SVG displacement filter simulating vegetable soy ink bleeding into unbleached rag paper fibers with uneven opacity pooling.',
+    props: [
+      { name: 'variant', type: "'droplet' | 'splatter' | 'smear' | 'pooling' | 'bleed'", default: "'droplet'", desc: 'Physical ink pooling profile' },
+      { name: 'color', type: "'ink' | 'riso-red' | 'riso-blue' | 'riso-violet' | 'riso-sage' | 'riso-ochre'", default: "'ink'", desc: 'Vegetable soy spot pigment' },
+      { name: 'size', type: "'sm' | 'md' | 'lg' | 'xl' | number", default: "'md'", desc: 'Capillary spread diameter' },
+      { name: 'opacity', type: 'number', default: '0.85', desc: 'Capillary absorption density' },
+    ],
+    usageSnippet: `<InkBlot variant="splatter" color="riso-red" size="lg" opacity={0.45} />`,
+  },
 ];

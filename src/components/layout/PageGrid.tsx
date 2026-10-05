@@ -1,6 +1,7 @@
 import React from 'react';
 import { RegistrationMarks } from '../ui/RegistrationMarks';
 import { BleedMargin } from '../ui/BleedMargin';
+import { InkBlot } from '../ui/InkBlot';
 
 export interface PageGridProps {
   children: React.ReactNode;
@@ -65,6 +66,17 @@ export const PageGrid: React.FC<PageGridProps> = ({
 
       {/* Bleed Margin wrapping the Page Content */}
       <BleedMargin visible={showBleedMargin}>
+        {/* Subtle Organic Press Gutter Ink Blots */}
+        <div className="absolute top-72 -left-6 pointer-events-none -z-10 hidden xl:block">
+          <InkBlot variant="droplet" color="ink" size="sm" opacity={0.25} rotation={18} seed={20} />
+        </div>
+        <div className="absolute top-1/2 -right-8 pointer-events-none -z-10 hidden xl:block">
+          <InkBlot variant="splatter" color="riso-red" size="sm" opacity={0.3} rotation={-45} seed={45} />
+        </div>
+        <div className="absolute bottom-96 -left-7 pointer-events-none -z-10 hidden xl:block">
+          <InkBlot variant="smear" color="riso-blue" size="md" opacity={0.25} rotation={12} seed={82} />
+        </div>
+
         {children}
       </BleedMargin>
     </div>

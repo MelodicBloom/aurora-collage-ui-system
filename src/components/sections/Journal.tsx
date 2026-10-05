@@ -2,10 +2,19 @@ import React from 'react';
 import { BookOpen, Feather, Bookmark, Quote } from 'lucide-react';
 import { Tag } from '../ui/Tag';
 import { Card } from '../ui/Card';
+import { InkBlot } from '../ui/InkBlot';
 
 export const Journal: React.FC = () => {
   return (
-    <section id="journal" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="journal" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6 relative overflow-hidden">
+      {/* Editorial Ink Blot Spill in Margin */}
+      <div className="absolute top-16 right-4 sm:right-16 pointer-events-none -z-10 opacity-70">
+        <InkBlot variant="droplet" color="ink" size="lg" opacity={0.4} rotation={-25} seed={56} />
+      </div>
+      <div className="absolute bottom-10 left-6 pointer-events-none -z-10 opacity-60">
+        <InkBlot variant="splatter" color="riso-red" size="sm" opacity={0.35} rotation={15} seed={78} />
+      </div>
+
       {/* Broadsheet Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-[#1A1208]">
         <div>

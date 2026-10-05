@@ -3,6 +3,7 @@ import { Layers, Sparkles, Feather, Printer, Scissors, ArrowDown } from 'lucide-
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Tag } from '../ui/Tag';
+import { InkBlot } from '../ui/InkBlot';
 import { Smear } from '../motion/Smear';
 import { Reveal } from '../motion/Reveal';
 
@@ -14,6 +15,17 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onExploreClick, onOpenStudio }) => {
   return (
     <section id="hero" className="py-12 md:py-20 relative overflow-hidden">
+      {/* Organic Wet-on-Dry Ink Bleed Accents Breaking the Grid */}
+      <div className="absolute top-6 -left-8 pointer-events-none -z-10 hidden sm:block">
+        <InkBlot variant="pooling" color="riso-sage" size="xl" opacity={0.35} rotation={-15} seed={12} />
+      </div>
+      <div className="absolute top-16 right-4 sm:right-12 pointer-events-none -z-10">
+        <InkBlot variant="splatter" color="riso-red" size="lg" opacity={0.45} rotation={22} seed={88} />
+      </div>
+      <div className="absolute bottom-12 -right-10 pointer-events-none -z-10 hidden md:block">
+        <InkBlot variant="droplet" color="ink" size="lg" opacity={0.3} rotation={45} seed={5} />
+      </div>
+
       {/* Newspaper Broadsheet Headline Frame */}
       <Reveal creaseOrigin="top">
         <div className="max-w-4xl mx-auto text-center space-y-6 px-4">

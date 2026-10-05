@@ -3,6 +3,7 @@ import { Copy, Check, Palette, Sparkles, Layers } from 'lucide-react';
 import { COLOR_TOKENS, AuroraColorToken } from '../../data/tokens';
 import { Tag } from '../ui/Tag';
 import { Card } from '../ui/Card';
+import { InkBlot } from '../ui/InkBlot';
 
 export const ColorSystem: React.FC = () => {
   const [selectedToken, setSelectedToken] = useState<AuroraColorToken>(COLOR_TOKENS[3]); // Riso Red default
@@ -20,7 +21,15 @@ export const ColorSystem: React.FC = () => {
   };
 
   return (
-    <section id="colors" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="colors" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6 relative overflow-hidden">
+      {/* Organic Ink Bleed Spatters */}
+      <div className="absolute top-8 right-6 pointer-events-none -z-10 opacity-70">
+        <InkBlot variant="smear" color="riso-blue" size="lg" opacity={0.4} rotation={-8} seed={19} />
+      </div>
+      <div className="absolute bottom-16 -left-6 pointer-events-none -z-10 opacity-70">
+        <InkBlot variant="droplet" color="riso-red" size="md" opacity={0.5} rotation={30} seed={71} />
+      </div>
+
       {/* Broadsheet Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-[#1A1208]">
         <div>

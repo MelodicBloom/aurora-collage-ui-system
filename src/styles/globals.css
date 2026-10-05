@@ -169,3 +169,40 @@
   );
 }
 
+/* Wet ink capillary wicking & drying animation on paper fibers */
+@keyframes ink-dry {
+  0% {
+    opacity: 0;
+    filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.35)) contrast(1.2) brightness(0.88);
+    transform: scale(0.93);
+  }
+  22% {
+    /* Fresh wet ink puddle hits paper with rich wet sheen */
+    opacity: calc(var(--blot-target-opacity, 0.85) * 1.12);
+    filter: drop-shadow(0 0 0.8px rgba(0, 0, 0, 0.2)) contrast(1.1);
+    transform: scale(0.98);
+  }
+  58% {
+    /* Solvent diffuses outward into cellulose capillary channels */
+    opacity: calc(var(--blot-target-opacity, 0.85) * 0.94);
+    transform: scale(1.015);
+  }
+  82% {
+    /* Pigment settles and bonds into unbleached fibers */
+    opacity: calc(var(--blot-target-opacity, 0.85) * 0.99);
+    transform: scale(1.005);
+  }
+  100% {
+    /* Cured matte dry soy ink */
+    opacity: var(--blot-target-opacity, 0.85);
+    filter: drop-shadow(0 0 0 transparent) contrast(1) brightness(1);
+    transform: scale(1);
+  }
+}
+
+.animate-ink-dry {
+  animation: ink-dry var(--blot-duration, 2.5s) cubic-bezier(0.22, 1, 0.36, 1) var(--blot-delay, 0s) both;
+  will-change: opacity, transform, filter;
+}
+
+

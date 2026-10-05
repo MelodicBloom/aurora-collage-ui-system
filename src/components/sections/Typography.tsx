@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Type, Sparkles, Feather, FileText } from 'lucide-react';
 import { TYPE_TOKENS } from '../../data/tokens';
 import { Tag } from '../ui/Tag';
+import { InkBlot } from '../ui/InkBlot';
 
 export const Typography: React.FC = () => {
   const [customText, setCustomText] = useState<string>(
@@ -9,7 +10,15 @@ export const Typography: React.FC = () => {
   );
 
   return (
-    <section id="typography" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="typography" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6 relative overflow-hidden">
+      {/* Organic Ink Bleed Spatter */}
+      <div className="absolute top-12 left-1/3 pointer-events-none -z-10 opacity-60">
+        <InkBlot variant="smear" color="riso-violet" size="md" opacity={0.35} rotation={12} seed={33} />
+      </div>
+      <div className="absolute bottom-20 right-6 pointer-events-none -z-10 opacity-70">
+        <InkBlot variant="splatter" color="ink" size="sm" opacity={0.4} rotation={-40} seed={99} />
+      </div>
+
       {/* Broadsheet Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-[#1A1208]">
         <div>

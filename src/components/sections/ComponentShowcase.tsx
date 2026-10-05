@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Scissors, Copy, Check, Sparkles, Sliders, ExternalLink, Bookmark, CheckSquare } from 'lucide-react';
+import { Scissors, Copy, Check, Sparkles, Sliders, ExternalLink, Bookmark, CheckSquare, RotateCcw } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Card } from '../ui/Card';
 import { Tag } from '../ui/Tag';
 import { Divider } from '../ui/Divider';
+import { InkBlot } from '../ui/InkBlot';
 import { COMPONENTS_CATALOG } from '../../data/components';
 
 export const ComponentShowcase: React.FC = () => {
@@ -16,6 +17,13 @@ export const ComponentShowcase: React.FC = () => {
   const [inputValue, setInputValue] = useState('Archival Proof Edition #042');
   const [selectedTagColor, setSelectedTagColor] = useState<'red' | 'blue' | 'yellow' | 'green'>('red');
 
+  // Interactive InkBlot Playground State
+  const [blotVariant, setBlotVariant] = useState<'droplet' | 'splatter' | 'smear' | 'pooling' | 'bleed'>('splatter');
+  const [blotColor, setBlotColor] = useState<'ink' | 'riso-red' | 'riso-blue' | 'riso-violet' | 'riso-sage' | 'riso-ochre'>('riso-red');
+  const [blotSize, setBlotSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('lg');
+  const [blotAnimKey, setBlotAnimKey] = useState<number>(0);
+  const [blotAnimated, setBlotAnimated] = useState<boolean>(true);
+
   const handleCopyCode = (code: string, id: string) => {
     navigator.clipboard.writeText(code);
     setCopiedId(id);
@@ -27,7 +35,15 @@ export const ComponentShowcase: React.FC = () => {
     : COMPONENTS_CATALOG.filter((c) => c.category === activeCategory);
 
   return (
-    <section id="showcase" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="showcase" className="py-16 border-t-2 border-[#1A1208] max-w-7xl mx-auto px-4 sm:px-6 relative overflow-hidden">
+      {/* Organic Stamp Ink Over-Inking Splatter */}
+      <div className="absolute top-10 right-10 pointer-events-none -z-10 opacity-70">
+        <InkBlot variant="splatter" color="riso-red" size="md" opacity={0.4} rotation={-15} seed={44} />
+      </div>
+      <div className="absolute bottom-24 -left-8 pointer-events-none -z-10 opacity-70">
+        <InkBlot variant="droplet" color="riso-ochre" size="lg" opacity={0.35} rotation={60} seed={101} />
+      </div>
+
       {/* Broadsheet Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-[#1A1208]">
         <div>
@@ -199,6 +215,167 @@ export const ComponentShowcase: React.FC = () => {
                 Fiber Rag
               </Tag>
             </Card>
+          </div>
+
+          {/* Dedicated Wet-on-Dry InkBlot Laboratory Card */}
+          <div className="mt-8 pt-6 border-t border-[#1A1208]/20 bg-[#FAF6EC] p-6 border border-[#1A1208]/30 relative">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div>
+                <span className="font-mono-code text-[11px] uppercase font-bold text-[#E84040]">
+                  SVG CAPILLARY DISPLACEMENT FILTER
+                </span>
+                <h4 className="font-display font-bold text-xl text-[#1A1208]">
+                  Wet-on-Dry InkBlot Playground
+                </h4>
+              </div>
+              <Tag color="violet" code="SVG-FILTER">
+                FeTurbulence + FeDisplacement
+              </Tag>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              {/* Controls */}
+              <div className="md:col-span-6 space-y-4 font-mono-code text-xs">
+                {/* Variant Selector */}
+                <div>
+                  <label className="text-[#8C7A5E] uppercase block mb-1.5 font-bold">
+                    Ink Profile Variant:
+                  </label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(['droplet', 'splatter', 'smear', 'pooling', 'bleed'] as const).map((v) => (
+                      <button
+                        key={v}
+                        onClick={() => setBlotVariant(v)}
+                        className={`px-2.5 py-1 border uppercase text-[11px] cursor-pointer transition-colors ${
+                          blotVariant === v
+                            ? 'bg-[#1A1208] text-[#FAF6EC] border-[#1A1208] font-bold'
+                            : 'bg-[#F4EDD8] text-[#1A1208] border-[#1A1208]/30 hover:border-[#1A1208]'
+                        }`}
+                      >
+                        {v}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Color Selector */}
+                <div>
+                  <label className="text-[#8C7A5E] uppercase block mb-1.5 font-bold">
+                    Soy Pigment Color:
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { key: 'riso-red', name: 'Scarlet', hex: '#E04F4F' },
+                      { key: 'riso-blue', name: 'Marine', hex: '#2D6BE4' },
+                      { key: 'riso-violet', name: 'Indigo', hex: '#5E4B8B' },
+                      { key: 'riso-sage', name: 'Sage', hex: '#4CA9A2' },
+                      { key: 'riso-ochre', name: 'Ochre', hex: '#FFB74D' },
+                      { key: 'ink', name: 'Deep Ink', hex: '#131313' },
+                    ].map((c) => (
+                      <button
+                        key={c.key}
+                        onClick={() => setBlotColor(c.key as any)}
+                        className={`px-2.5 py-1 border flex items-center gap-1.5 uppercase text-[10px] cursor-pointer transition-transform ${
+                          blotColor === c.key
+                            ? 'border-[#1A1208] bg-[#1A1208] text-[#FAF6EC] font-bold shadow-[1px_1px_0px_#1A1208]'
+                            : 'border-[#1A1208]/30 bg-[#F4EDD8] text-[#1A1208]'
+                        }`}
+                      >
+                        <span className="w-2.5 h-2.5 rounded-full border border-black/30" style={{ backgroundColor: c.hex }} />
+                        <span>{c.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Size & Animation Controls */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
+                  <div>
+                    <label className="text-[#8C7A5E] uppercase block mb-1.5 font-bold">
+                      Capillary Spread Size:
+                    </label>
+                    <div className="flex gap-2">
+                      {(['sm', 'md', 'lg', 'xl'] as const).map((s) => (
+                        <button
+                          key={s}
+                          onClick={() => {
+                            setBlotSize(s);
+                            setBlotAnimKey((k) => k + 1);
+                          }}
+                          className={`px-3 py-1 border uppercase text-[10px] cursor-pointer transition-colors ${
+                            blotSize === s
+                              ? 'bg-[#1A1208] text-[#FAF6EC] border-[#1A1208] font-bold'
+                              : 'bg-[#F4EDD8] text-[#1A1208] border-[#1A1208]/30'
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Replay Wet Ink Drying Button */}
+                  <div className="pt-4 sm:pt-0">
+                    <button
+                      type="button"
+                      onClick={() => setBlotAnimKey((k) => k + 1)}
+                      className="px-3 py-1.5 bg-[#FAF6EC] border-2 border-[#1A1208] font-mono-code text-[11px] font-bold text-[#1A1208] hover:bg-[#F4EDD8] flex items-center gap-1.5 cursor-pointer shadow-[2px_2px_0px_#1A1208] active:translate-y-0.5 active:shadow-none"
+                      title="Trigger fresh wet ink droplet and observe the capillary absorption drying process"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5 text-[#E04F4F]" />
+                      <span>Replay Ink Drying</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Bleed Canvas Frame */}
+              <div className="md:col-span-6 bg-[#F4EDD8] border border-[#1A1208]/40 h-56 relative flex items-center justify-center overflow-hidden paper-shadow-inner p-4">
+                {/* Background tooth grain */}
+                <div className="absolute inset-0 halftone-dots opacity-20 pointer-events-none" />
+
+                {/* Simulated deckle paper patch */}
+                <div className="absolute w-48 h-40 bg-[#FAF6EC] border border-[#8C7A5E]/30 rotate-[-2deg] shadow-xs" />
+
+                {/* The Live InkBlot Component with keyframe drying */}
+                <div className="relative z-10" key={blotAnimKey}>
+                  <InkBlot
+                    variant={blotVariant}
+                    color={blotColor}
+                    size={blotSize}
+                    opacity={0.88}
+                    rotation={-5}
+                    seed={88}
+                    animated={blotAnimated}
+                    duration={2.5}
+                  />
+                </div>
+
+                {/* Microstatus badge */}
+                <div className="absolute top-2 left-2 font-mono-code text-[9px] text-[#E04F4F] bg-[#FAF6EC] px-2 py-0.5 border border-[#E04F4F]/40 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E04F4F] animate-pulse" />
+                  <span>@keyframes ink-dry: 2.5s absorption curve</span>
+                </div>
+
+                <div className="absolute bottom-2 right-2 font-mono-code text-[9px] text-[#8C7A5E] bg-[#FAF6EC]/80 px-2 py-0.5 border border-[#1A1208]/20">
+                  SVG Filter: feDisplacementMap + feGaussianBlur
+                </div>
+              </div>
+            </div>
+
+            {/* Code Copy Bar */}
+            <div className="mt-4 pt-3 border-t border-[#1A1208]/20 flex items-center justify-between font-mono-code text-xs">
+              <code className="text-[#1A1208] truncate mr-2">
+                {`<InkBlot variant="${blotVariant}" color="${blotColor}" size="${blotSize}" animated duration={2.5} />`}
+              </code>
+              <button
+                onClick={() => handleCopyCode(`<InkBlot variant="${blotVariant}" color="${blotColor}" size="${blotSize}" animated duration={2.5} />`, 'inkblot-sample')}
+                className="px-3 py-1 bg-[#1A1208] text-[#FAF6EC] hover:bg-[#383838] flex items-center gap-1.5 cursor-pointer shrink-0 text-[11px]"
+              >
+                {copiedId === 'inkblot-sample' ? <Check className="w-3.5 h-3.5 text-[#3DAA6B]" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedId === 'inkblot-sample' ? 'Copied' : 'Copy JSX'}</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

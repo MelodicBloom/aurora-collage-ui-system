@@ -34,6 +34,7 @@ import {
   CrossMarkBar
 } from '../ui/StampSvg';
 import { NewspaperFragment, WoodcutDropCap, CeramicVaseArt } from '../ui/NewspaperFragment';
+import { InkBlot } from '../ui/InkBlot';
 
 export const CollageAssetLibrary: React.FC = () => {
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
@@ -154,15 +155,9 @@ export const CollageAssetLibrary: React.FC = () => {
                     mixBlendMode: 'multiply',
                   }}
                 />
-                {/* Soot ink splatter */}
-                <div
-                  className="h-16 rounded-full border border-[#131313]/20 relative flex items-center justify-center"
-                  style={{
-                    background: 'radial-gradient(circle, #131313 0%, rgba(19, 19, 19, 0.1) 75%)',
-                  }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#131313] absolute -top-1 right-2" />
-                  <span className="w-1 h-1 rounded-full bg-[#131313] absolute bottom-1 left-2" />
+                {/* Genuine SVG Filter Ink Blot Bleed */}
+                <div className="h-16 border border-[#131313]/20 relative flex items-center justify-center bg-[#FAF6EC] overflow-hidden">
+                  <InkBlot variant="splatter" color="ink" size={54} opacity={0.9} seed={11} />
                 </div>
                 {/* Dual wash */}
                 <div

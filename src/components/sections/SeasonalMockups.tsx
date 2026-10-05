@@ -5,6 +5,7 @@ import { Button } from '../ui/Button';
 import { BotanicalBranch, PalmFrond, RisoSunCircle, SilhouetteCameo, WildflowerStem } from '../ui/BotanicalSvg';
 import { NewspaperFragment, WoodcutDropCap } from '../ui/NewspaperFragment';
 import { PostalStampRound, DateStamp, FlowerEmblemStamp } from '../ui/StampSvg';
+import { InkBlot } from '../ui/InkBlot';
 
 export type Season = 'spring' | 'summer' | 'fall' | 'winter';
 
@@ -68,7 +69,15 @@ export const SeasonalMockups: React.FC = () => {
   };
 
   return (
-    <section id="seasonal" className="py-16 border-t-2 border-[#131313] max-w-7xl mx-auto px-4 sm:px-6">
+    <section id="seasonal" className="py-16 border-t-2 border-[#131313] max-w-7xl mx-auto px-4 sm:px-6 relative overflow-hidden">
+      {/* Organic Capillary Bleed Background Blots */}
+      <div className="absolute top-12 right-2 pointer-events-none -z-10 opacity-70 hidden sm:block">
+        <InkBlot variant="pooling" color="riso-ochre" size="lg" opacity={0.3} rotation={35} seed={62} />
+      </div>
+      <div className="absolute bottom-20 left-4 pointer-events-none -z-10 opacity-60">
+        <InkBlot variant="splatter" color="riso-sage" size="md" opacity={0.4} rotation={-18} seed={17} />
+      </div>
+
       {/* Broadsheet Section Masthead */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-4 border-b-2 border-double border-[#131313]">
         <div>
